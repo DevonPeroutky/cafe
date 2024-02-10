@@ -8,7 +8,6 @@ import {Roast, Status} from "./data/types";
 import {useUploadImage} from "./data/client/image";
 
 const ImageDisplay = (props: Roast) => {
-  console.log(props);
   const { imageSrc } = props;
   if (!imageSrc) {
     return null;
@@ -31,13 +30,10 @@ const ImageStateDisplay = (roast: Roast) => {
 function App() {
   return (
       <RecoilRoot>
-        {/*<Toaster />*/}
-        <div className="App">
-          {/*<Tabs />*/}
+        <div className="flex h-screen w-screen border-amber-300 border-solid border">
           <WebcamCapture/>
-          <br/>
+          <ImageList />
         </div>
-        <ImageList />
       </RecoilRoot>
   );
 }
@@ -62,7 +58,7 @@ const ImageList = () => {
   }, [roasts]);
 
   return (
-      <div>
+      <div className="w-96 bg-red-500 h-full ">
         { roasts.map((roast, idx) => (<ImageDisplay key={idx} {...roast}/>)) }
       </div>
   )

@@ -16,9 +16,13 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "rules": {
+      "@typescript-eslint/no-unused-vars": "off"
+    }
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

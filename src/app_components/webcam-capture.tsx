@@ -3,6 +3,8 @@ import {imageState} from "../data/local-state/images";
 import Webcam from "react-webcam";
 import React, {useEffect, useState} from "react";
 import {Roast, Status} from "../data/types";
+import {CameraIcon} from "@heroicons/react/24/solid";
+import {ArrowUpTrayIcon} from "@heroicons/react/24/outline";
 
 const videoConstraints = {
   width: 1280,
@@ -21,34 +23,45 @@ export const WebcamCapture = () => {
   }, [roasts])
 
   return (
-      <div>
+      <div className="relative flex-1 h-full bg-black">
         <Webcam
             audio={false}
             screenshotFormat="image/jpeg"
             videoConstraints={videoConstraints}
-            className="rounded-full w-36 h-36 object-cover absolute left-4 bottom-4"
+            className="h-full w-full object-cover"
         >
           { /* @ts-ignore */}
           {({getScreenshot}) => (
-              <button
-                  disabled={disabled}
-                  onClick={() => {
-                    const imageSrc = getScreenshot()
-                    console.log("Got screenshot: ", imageSrc);
+              // Center div horizontally and vertically
+              <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 gap-x-4 flex">
+                <button
+                    disabled={disabled}
+                    onClick={() => {
+                      const imageSrc = getScreenshot()
+                      console.log("Got screenshot: ", imageSrc);
 
-                    if (imageSrc) {
-                      setRoasts(currVal => (
-                              [...currVal, { imageSrc: imageSrc, status: Status.Pending} as Roast]
-                          )
-                      );
-                    }
-                  }}
-              >
-                Capture photo
-              </button>
+                      if (imageSrc) {
+                        setRoasts(currVal => (
+                                [...currVal, {imageSrc: imageSrc, status: Status.Pending} as Roast]
+                            )
+                        );
+                      }
+                    }}
+                >
+                  <div className="flex items-center justify-between gap-x-2">
+                    <CameraIcon className="h-6 w-6"/>
+                    <span>Capture photo</span>
+                  </div>
+                </button>
+                <button>
+                  <div className="flex items-center justify-between gap-x-2 ">
+                    <ArrowUpTrayIcon className="h-6 w-6"/>
+                    <span>Upload photo</span>
+                  </div>
+                </button>
+              </div>
           )}
         </Webcam>
-        <br/>
       </div>
   )
 };
