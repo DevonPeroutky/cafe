@@ -6,31 +6,17 @@ import {imageState} from "./data/local-state/images";
 import {WebcamCapture} from "./app_components/webcam-capture";
 import {Roast, Status} from "./data/types";
 import {useUploadImage} from "./data/client/image";
+import {getCurrentTime} from "@/utils.ts";
+import { Toaster } from "@/components/ui/sonner"
+import { toast } from 'sonner';
+import {ResultDisplay} from "@/app_components/result-display.tsx";
 
-const ImageDisplay = (props: Roast) => {
-  const { imageSrc } = props;
-  if (!imageSrc) {
-    return null;
-  }
-  return (
-      <div className="flex items-center">
-        <img src={imageSrc} alt="photo"/>
-        <ImageStateDisplay {...props} />
-      </div>
-  );
-}
-
-const ImageStateDisplay = (roast: Roast) => {
-  if (roast.status === Status.Pending) {
-    return <div>Hold on asshole...</div>
-  }
-  return <div>{roast.roast}</div>
-}
 
 function App() {
   return (
       <RecoilRoot>
-        <div className="flex h-screen w-screen border-amber-300 border-solid border">
+        <Toaster />
+        <div className="flex h-screen w-screen">
           <WebcamCapture/>
           <ImageList />
         </div>
@@ -45,21 +31,20 @@ const ImageList = () => {
   useEffect(() => {
     const pendingRoast = roasts.find(r => r.status === Status.Pending)
     if (pendingRoast) {
-
-      // toast("Image has been submitted for review", {
-      //   description: getCurrentTime(),
-      //   action: {
-      //     label: "Undo",
-      //     onClick: () => toast("There's no going back"),
-      //   },
-      // })
+      toast("Image has been submitted for review", {
+        description: getCurrentTime(),
+        action: {
+          label: "Undo",
+          onClick: () => toast("There's no going back"),
+        },
+      })
       uploadImage(pendingRoast.imageSrc)
     }
   }, [roasts]);
 
   return (
-      <div className="w-96 bg-red-500 h-full ">
-        { roasts.map((roast, idx) => (<ImageDisplay key={idx} {...roast}/>)) }
+      <div className="w-1/3 h-full flex flex-col gap-y-2">
+        { roasts.map((roast, idx) => (<ResultDisplay key={idx} {...roast}/>)) }
       </div>
   )
 }
