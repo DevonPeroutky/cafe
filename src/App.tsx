@@ -11,29 +11,21 @@ import { Toaster } from "@/components/ui/sonner"
 import { toast } from 'sonner';
 import {ResultDisplay} from "@/app_components/result-display.tsx";
 import {inferenceArgsState} from "@/data/local-state/inference-args.tsx";
+import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.tsx";
+import {SlidersHorizontal} from "lucide-react";
+import {Button} from "@/components/ui/button.tsx";
 
 
 function App() {
   return (
       <RecoilRoot>
         <Toaster />
-        <div className="flex h-screen w-screen">
+        <div className="grid w-screen grid-cols-1 md:grid-cols-3 min-h-screen">
           <WebcamCapture/>
           <ImageList />
         </div>
       </RecoilRoot>
   );
-}
-
-const InferenceArgsForm = () => {
-  const [inferenceArgs, setInferenceArgs] = useRecoilState(inferenceArgsState);
-
-  return (
-      <div>
-        HEY
-      </div>
-  )
-
 }
 
 const ImageList = () => {
@@ -60,7 +52,7 @@ const ImageList = () => {
   }, [roasts]);
 
   return (
-      <div className="w-1/3 h-full flex flex-col gap-y-2">
+      <div className="col-span-1 w-full overflow-y-scroll h-screen md:h-screen">
         { roasts.map((roast, idx) => (<ResultDisplay key={idx} {...roast}/>)) }
       </div>
   )

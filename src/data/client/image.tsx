@@ -35,7 +35,12 @@ export const useUploadImage = () => {
           throw new Error(message || 'Assertion failed');
         }
 
-        setRoasts([...existingRoasts, {...pendingRoast, status: Status.Success, augmented_roast: data.augmented_response, basic_roast: data.basic_response }])
+        setRoasts([...existingRoasts, {...pendingRoast,
+          status: Status.Success,
+          augmented_roast: data.augmented_response,
+          basic_roast: data.basic_response,
+          full_prompt: data.full_prompt,
+        }])
 
         return data
       } else {

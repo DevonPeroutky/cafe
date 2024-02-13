@@ -1,7 +1,7 @@
 
 export type Roast = {
   imageSrc: string
-  prompt: string | undefined | null
+  full_prompt: string | undefined | null
   status: Status
   basic_roast: string | undefined | null
   augmented_roast: string | undefined | null
