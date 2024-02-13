@@ -3,12 +3,26 @@ import React from "react";
 
 
 const ImageStateDisplay = (roast: Roast) => {
-  const status = (roast.status === Status.Pending) ? <div>Hold on asshole...</div> : <div>{roast.roast}</div>
+  if (roast.status === Status.Pending) {
     return (
-      <div className="flex items-center py-6 px-8 bg-red-500">
-        {status}
-      </div>
+        <div className="flex items-center py-6 px-8 bg-red-500">
+          Hold on asshole...
+        </div>
     );
+  }
+
+  return (
+    <div className="flex flex-col py-6 px-8 gap-y-4">
+      <div>
+        <h1 className="font-medium text-lg">Basic</h1>
+        <p>{roast.basic_roast}</p>
+      </div>
+      <div className=''>
+        <h1 className="font-medium text-lg">Augmented</h1>
+        <p>{roast.augmented_roast}</p>
+      </div>
+    </div>
+  );
 }
 export const ResultDisplay = (props: Roast) => {
     return (

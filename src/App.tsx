@@ -1,15 +1,16 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import {RecoilRoot, useRecoilState,} from 'recoil';
 
 import {imageState} from "./data/local-state/images";
 import {WebcamCapture} from "./app_components/webcam-capture";
 import {Roast, Status} from "./data/types";
-import {useUploadImage} from "./data/client/image";
-import {getCurrentTime} from "@/utils.ts";
+import {useUploadImage, useUploadImageWithStreamingResponse} from "./data/client/image";
+import {base64StringToFile, getCurrentTime} from "@/utils.ts";
 import { Toaster } from "@/components/ui/sonner"
 import { toast } from 'sonner';
 import {ResultDisplay} from "@/app_components/result-display.tsx";
+import {inferenceArgsState} from "@/data/local-state/inference-args.tsx";
 
 
 function App() {
@@ -24,9 +25,21 @@ function App() {
   );
 }
 
+const InferenceArgsForm = () => {
+  const [inferenceArgs, setInferenceArgs] = useRecoilState(inferenceArgsState);
+
+  return (
+      <div>
+        HEY
+      </div>
+  )
+
+}
+
 const ImageList = () => {
-  const uploadImage = useUploadImage()
+  const uploadImage = useUploadImage();
   const [roasts, setRoasts] = useRecoilState(imageState);
+  const [inferenceArgs, setInferenceArgs] = useRecoilState(inferenceArgsState);
 
   useEffect(() => {
     const pendingRoast = roasts.find(r => r.status === Status.Pending)
@@ -38,7 +51,11 @@ const ImageList = () => {
           onClick: () => toast("There's no going back"),
         },
       })
-      uploadImage(pendingRoast.imageSrc)
+      const image = base64StringToFile(pendingRoast.imageSrc)
+      uploadImage({
+        ...inferenceArgs,
+        imageFile: image
+      })
     }
   }, [roasts]);
 
