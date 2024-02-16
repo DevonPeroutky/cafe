@@ -34,14 +34,18 @@ export const ResultDisplay = (props: Roast) => {
 }
 
 const ImageThumbnail = (props: Roast) => {
-  const { imageSrc, full_prompt, } = props;
+  const { imageSrc, full_prompt } = props;
   if (!imageSrc) {
     return null;
   }
   return (
-      <div className="flex flex-col w-full bg-slate-100 py-6 px-8">
+      <div className="flex flex-col w-full bg-slate-100 py-6 px-8 gap-y-2">
         <img src={imageSrc} alt="photo" className="rounded-2xl w-1/2"/>
         <p className="pt-4 text-sm">{full_prompt}</p>
+        <div className="flex flex-col">
+          <span><b>Temperature: </b> {props.topP}</span>
+          <span><b>Top P: </b>{props.temperature}</span>
+        </div>
       </div>
   );
 }

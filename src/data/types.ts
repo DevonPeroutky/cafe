@@ -5,7 +5,7 @@ export type Roast = {
   status: Status
   basic_roast: string | undefined | null
   augmented_roast: string | undefined | null
-}
+} & InferenceProps
 
 export enum Status {
   Pending = "PENDING",

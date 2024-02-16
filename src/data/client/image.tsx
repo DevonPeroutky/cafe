@@ -1,4 +1,4 @@
-import {base64StringToFile} from "../../utils";
+import {base64StringToFile} from "@/utils.ts";
 import {InferenceProps, Status} from "../types";
 import {useRecoilState} from "recoil";
 import {imageState} from "../local-state/images";
@@ -37,6 +37,9 @@ export const useUploadImage = () => {
 
         setRoasts([...existingRoasts, {...pendingRoast,
           status: Status.Success,
+          topP: topP,
+          temperature: temperature,
+          maxNewTokens: maxNewTokens,
           augmented_roast: data.augmented_response,
           basic_roast: data.basic_response,
           full_prompt: data.full_prompt,
