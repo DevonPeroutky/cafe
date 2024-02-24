@@ -1,27 +1,29 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {RecoilRoot, useRecoilState,} from 'recoil';
 
 import {imageState} from "./data/local-state/images";
 import {WebcamCapture} from "./app_components/webcam-capture";
-import {Roast, Status} from "./data/types";
+import {Status} from "./data/types";
 import {useUploadImage } from "./data/client/image";
 import {base64StringToFile, getCurrentTime} from "@/utils.ts";
 import { Toaster } from "@/components/ui/sonner"
 import { toast } from 'sonner';
 import {ResultDisplay} from "@/app_components/result-display.tsx";
 import {inferenceArgsState} from "@/data/local-state/inference-args.tsx";
+import {InferenceSettings} from "@/app_components/inference-settings.tsx";
 
 
 function App() {
   return (
-      <RecoilRoot>
-        <Toaster />
-        <div className="grid w-screen grid-cols-1 md:grid-cols-3 min-h-screen">
-          <WebcamCapture/>
-          <ImageList />
-        </div>
-      </RecoilRoot>
+    <RecoilRoot>
+      <Toaster />
+      <div className="grid w-screen grid-cols-1 md:grid-cols-3 min-h-screen">
+        <InferenceSettings />
+        <WebcamCapture/>
+        {/*<ImageList />*/}
+      </div>
+    </RecoilRoot>
   );
 }
 
