@@ -11,7 +11,8 @@ import { Toaster } from "@/components/ui/sonner"
 import { toast } from 'sonner';
 import {ResultDisplay} from "@/app_components/result-display.tsx";
 import {inferenceArgsState} from "@/data/local-state/inference-args.tsx";
-import {InferenceSettings} from "@/app_components/inference-settings.tsx";
+import {InferenceSettingsForm} from "@/app_components/inference_settings/inference-settings-form.tsx";
+import {InferenceSettingsPanel} from "@/app_components/inference_settings/inference_settings_panel.tsx";
 
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
     <RecoilRoot>
       <Toaster />
       <div className="grid w-screen grid-cols-1 md:grid-cols-3 min-h-screen">
-        <InferenceSettings />
+        <InferenceSettingsPanel />
         <WebcamCapture/>
         {/*<ImageList />*/}
       </div>
