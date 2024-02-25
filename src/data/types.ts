@@ -1,10 +1,10 @@
 
 export type Roast = {
   imageSrc: string
-  full_prompt: string | undefined | null
+  fullPrompt: string | undefined | null
   status: Status
-  basic_roast: string | undefined | null
-  augmented_roast: string | undefined | null
+  basicRoast: string | undefined | null
+  augmentedRoast: string | undefined | null
 } & InferenceProps
 
 export enum Status {
@@ -14,10 +14,16 @@ export enum Status {
 }
 
 export type InferenceProps = {
+  lora?: LoraProps | undefined
   temperature: number
   prompt: string
   systemPrompt: string
   topP: number
   maxNewTokens: number
   imageFile: File | null
+}
+
+export type LoraProps = {
+  path: string
+  displayName: string
 }

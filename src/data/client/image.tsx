@@ -1,56 +1,57 @@
 import {base64StringToFile} from "@/utils.ts";
 import {InferenceProps, Status} from "../types";
-import {useRecoilState} from "recoil";
-import {imageState} from "../local-state/images";
+import {useRecoilState, useRecoilValue} from "recoil";
+import {finalizedRoastState, imageState, pendingRoastState} from "../local-state/images";
 import {API_ENDPOINT} from "@/data/client/constants.ts";
 
 export const useUploadImage = () => {
   const [roasts, setRoasts] = useRecoilState(imageState);
+  const pendingRoast = useRecoilValue(pendingRoastState)
+  const finalizedRoasts = useRecoilValue(finalizedRoastState)
 
   return async (inference_props: InferenceProps) => {
-    const { imageFile, prompt, systemPrompt, topP, temperature, maxNewTokens } = inference_props
+    const { imageFile, prompt, systemPrompt, topP, temperature, maxNewTokens, lora } = inference_props
 
     const formData = new FormData();
     formData.append('file', imageFile!);
 
+    if (!pendingRoast) {
+      console.error('No pending roast found');
+      throw new Error('No pending roast found');
+    }
+
+    console.log('PENDING ROAST', pendingRoast);
+    const loraPath = lora ? `&lora=${lora.path}` : ''
+
     try {
-      const response = await fetch(`${API_ENDPOINT}/uploadfile?prompt=${prompt}&system_prompt=${systemPrompt}&temperature=${temperature}&top_p=${topP}&max_new_tokens=${maxNewTokens}`, {
+      const response = await fetch(`${API_ENDPOINT}/uploadfile?prompt=${prompt}&system_prompt=${systemPrompt}&temperature=${temperature}&top_p=${topP}&max_new_tokens=${maxNewTokens}${loraPath}`, {
         method: 'POST',
         body: formData,
       });
 
       if (response.ok) {
         const data = await response.json();
-        console.log('Server response:', data);
 
-        // filter out the roast that is in the pending state
-        const existingRoasts = roasts.slice(0, -1);
-
-        // Create a new array containing only the last element
-        const pendingRoast = roasts[roasts.length - 1];
-
-        if (pendingRoast.status !== Status.Pending) {
-          const message = "Roast is in state " + pendingRoast.status + "expected PENDING"
-          console.error('Assertion failed:', message);
-          throw new Error(message || 'Assertion failed');
-        }
-
-        setRoasts([...existingRoasts, {...pendingRoast,
+        setRoasts([...finalizedRoasts, {...pendingRoast!,
           status: Status.Success,
-          topP: topP,
-          temperature: temperature,
-          maxNewTokens: maxNewTokens,
-          augmented_roast: data.augmented_response,
-          basic_roast: data.basic_response,
-          full_prompt: data.full_prompt,
+          augmentedRoast: data.augmented_response,
+          basicRoast: data.basic_response,
+          fullPrompt: data.full_prompt,
         }])
 
         return data
       } else {
+        console.log(`FAILED`)
+        setRoasts([...finalizedRoasts, {...pendingRoast!,
+          status: Status.Failed,
+        }])
         console.error('Server error:', response.status, response.statusText);
       }
-    } catch (error) {
-      console.error('Error:', error);
+    } catch (e) {
+      setRoasts([...finalizedRoasts, {...pendingRoast!,
+        status: Status.Failed,
+      }])
+      console.error('Server error:', e);
     }
   }
 }
@@ -60,7 +61,7 @@ export const useUploadImageWithStreamingResponse = () => {
 
     return async (imageSrc: string, filename =  'image.jpeg', mimeType = 'image/jpeg') => {
       const uploadFile = base64StringToFile(imageSrc, filename, mimeType)
-      console.log(roasts)
+      console.log('ROASTS', roasts);
 
       if (imageSrc) {
         console.log(imageSrc)
@@ -69,7 +70,6 @@ export const useUploadImageWithStreamingResponse = () => {
 
         const res = await fetch('http://34.146.237.185:40000/worker_get_status', {  method: 'POST' })
         const data = await res.json()
-        console.log(data)
 
         const llava_worker_url = 'http://34.146.237.185:40000/worker_generate_stream'
         return fetch(llava_worker_url, {
