@@ -14,7 +14,7 @@ const ImageStateDisplay = (roast: Roast) => {
 
   if (roast.status === Status.Failed) {
     return (
-        <div className="flex items-center px-8 ">
+        <div className="flex items-center px-8 text-red-400">
           Server had an error... Looks like you're too ugly to roast.
         </div>
     );

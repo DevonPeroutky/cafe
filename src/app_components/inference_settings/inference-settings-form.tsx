@@ -23,6 +23,8 @@ import AppContext from "@/context.ts";
 import Webcam from "react-webcam";
 import {LoraSelect} from "@/app_components/lora-select.tsx";
 import {lorasState} from "@/data/local-state/loras.tsx";
+import {Label} from "@/components/ui/label.tsx";
+import {binaryFileToBase64String} from "@/utils.ts";
 
 
 export const InferenceSettingsForm = () => {
@@ -171,26 +173,35 @@ export const InferenceSettingsForm = () => {
           />
         </div>
         <div className="flex gap-x-2 w-full justify-center">
+          <Label>
+            <Input disabled={disabled} type="file" className="hidden" onChange={e => {
+              const fileInput = e.target;
+              const files = fileInput.files;
+              const image = files![0]
+
+              binaryFileToBase64String(image).then((imageSrc) => {
+                form.setValue("imageSrc", imageSrc);
+                form.handleSubmit(onSubmit)(undefined)
+              })
+            }}/>
+            <div className={`cursor-pointer h-10 px-3 py-2 bg-primary text-primary-foreground hover:bg-primary/90 inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50`}>
+              {disabled ? <Loader2 className="h-4 w-4 animate-spin"/> : <MonitorUp className="h-4 w-4"/>}
+            </div>
+          </Label>
           <Button
-            size="icon"
-            disabled={disabled || !form.formState.isValid}
-          >
-            {disabled ? <Loader2 className="h-4 w-4 animate-spin"/> : <MonitorUp className="h-4 w-4"/>}
-          </Button>
-          <Button
-            size="icon"
-            disabled={disabled || !form.formState.isValid}
+              size="icon"
+              disabled={disabled || !form.formState.isValid}
           >
             {disabled ? <Loader2 className="h-4 w-4 animate-spin"/> : <RefreshCw className="h-4 w-4"/>}
           </Button>
           <Button
-            disabled={disabled || !form.formState.isValid}
-            size="icon"
-            onClick={(e) => {
-              const imageSrc = capture() as string | undefined
-              form.setValue("imageSrc", imageSrc)
-              form.handleSubmit(onSubmit)
-            }}
+              disabled={disabled || !form.formState.isValid}
+              size="icon"
+              onClick={(e) => {
+                const imageSrc = capture() as string | undefined
+                form.setValue("imageSrc", imageSrc)
+                form.handleSubmit(onSubmit)
+              }}
           >
             {disabled ? <Loader2 className="h-4 w-4 animate-spin"/> : <CameraIcon className="h-4 w-4"/>}
           </Button>
