@@ -23,6 +23,7 @@ export type InferenceProps = {
   imageFile: File | null
 }
 
+
 export type LoraProps = {
   path: string
   displayName: string

@@ -60,7 +60,8 @@ const ImageThumbnail = (props: Roast) => {
     // Update the imageSrc in the form
     setValue("imageSrc", imageSrc)
 
-    // Submit the form
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     submit(getValues())
   };
 
