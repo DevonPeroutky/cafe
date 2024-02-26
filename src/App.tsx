@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import './App.css';
 import {useRecoilState} from 'recoil';
 
@@ -19,6 +19,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 
 function App() {
   const fetchLoras = useLoras()
+
   // const methods = useForm()
   const methods = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema), defaultValues: {
@@ -51,6 +52,7 @@ function App() {
 }
 
 const ImageList = () => {
+  const scrollableRef = useRef();
   const uploadImage = useUploadImage();
   const [roasts, setRoasts] = useRecoilState(imageState);
 
@@ -76,11 +78,30 @@ const ImageList = () => {
         imageFile: image,
         lora: pendingRoast.lora
       })
+
+      // Scroll to the bottom
+      if (scrollableRef.current) {
+
+        // console.log("SCROLLING ", document.body.scrollHeight)
+        // console.log("SCROLLING ", scrollableRef.current.scrollHeight)
+        // scrollableRef.current.scrollTo = scrollableRef.current.scrollHeight;
+        // scrollableRef.current.scrollIntoView({ behavior: 'smooth', block: 'end', inline: 'nearest' });
+
+        // Works but isn't smooth
+        // scrollableRef.current.scrollTop = scrollableRef.current.scrollHeight;
+
+        // Doesn't work
+        const scrollOptions: ScrollToOptions = {
+          behavior: 'smooth',
+          top: scrollableRef.current.scrollHeight
+        }
+        window.scrollTo(scrollOptions);
+      }
     }
   }, [roasts]);
 
   return (
-      <div className="w-full overflow-y-scroll flex flex-col">
+      <div className="w-full overflow-y-scroll flex flex-col" ref={scrollableRef}>
         { roasts.map((roast, idx) => (<ResultDisplay key={idx} {...roast}/>)) }
       </div>
   )

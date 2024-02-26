@@ -148,7 +148,7 @@ export const InferenceSettingsForm = () => {
         </Label>
         <Button
             size="icon"
-            disabled={disabled || !formState.isValid}
+            disabled={disabled || !formState.isValid || roasts.length == 0}
         >
           {disabled ? <Loader2 className="h-4 w-4 animate-spin"/> : <RefreshCw className="h-4 w-4"/>}
         </Button>
