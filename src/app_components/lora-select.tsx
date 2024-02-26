@@ -9,25 +9,25 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import {useFormContext} from "react-hook-form";
 
 
-export const LoraSelect = (props) => {
-  const { form } = props;
+export const LoraSelect = () => {
+  const { setValue, control } = useFormContext()
   const [loras, setLoras] = useRecoilState(lorasState)
 
   useEffect(() => {
     if (loras && loras.length > 0) {
-      form.setValue("loraName", loras && loras[0] && loras[0].displayName)
+      setValue("loraName", loras && loras[0] && loras[0].displayName)
     }
   }, [loras]);
 
   return (
       <FormField
           name="loraName"
-          control={form.control}
+          control={control}
           render={({field}) => {
 
-            console.log(`FIELD: `, field)
             return (
                 <FormItem className="w-full">
                   <FormLabel>Model</FormLabel>
