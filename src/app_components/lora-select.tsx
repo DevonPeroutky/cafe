@@ -28,7 +28,6 @@ export const LoraSelect = () => {
           control={control}
           render={({field}) => {
 
-            console.log(`FIELD: `, field)
             return (
                 <FormItem className="w-full">
                   <FormLabel>Model</FormLabel>

@@ -16,11 +16,9 @@ export const useUploadImage = () => {
     formData.append('file', imageFile!);
 
     if (!pendingRoast) {
-      console.error('No pending roast found');
       throw new Error('No pending roast found');
     }
 
-    console.log('PENDING ROAST', pendingRoast);
     const loraPath = lora ? `&lora=${lora.path}` : ''
 
     try {
@@ -41,7 +39,6 @@ export const useUploadImage = () => {
 
         return data
       } else {
-        console.log(`FAILED`)
         setRoasts([...finalizedRoasts, {...pendingRoast!,
           status: Status.Failed,
         }])
@@ -61,10 +58,8 @@ export const useUploadImageWithStreamingResponse = () => {
 
     return async (imageSrc: string, filename =  'image.jpeg', mimeType = 'image/jpeg') => {
       const uploadFile = base64StringToFile(imageSrc, filename, mimeType)
-      console.log('ROASTS', roasts);
 
       if (imageSrc) {
-        console.log(imageSrc)
         const formData = new FormData();
         formData.append('file', uploadFile);
 

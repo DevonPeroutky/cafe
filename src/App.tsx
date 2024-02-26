@@ -57,10 +57,7 @@ const ImageList = () => {
   useEffect(() => {
     const pendingRoast = roasts.find(r => r.status === Status.Pending)
 
-    console.log("Roasts", roasts)
-
     if (pendingRoast) {
-      console.log("Pending roast: ", pendingRoast)
       toast("Image has been submitted for review", {
         description: getCurrentTime(),
         action: {
