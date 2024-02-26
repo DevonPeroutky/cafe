@@ -174,7 +174,7 @@ export const InferenceSettingsForm = () => {
         </div>
         <div className="flex gap-x-2 w-full justify-center">
           <Label>
-            <Input disabled={disabled} type="file" className="hidden" onChange={e => {
+            <Input accept=".webp,.jpg,.jpeg,.png" disabled={disabled} type="file" className="hidden" onChange={e => {
               const fileInput = e.target;
               const files = fileInput.files;
               const image = files![0]
