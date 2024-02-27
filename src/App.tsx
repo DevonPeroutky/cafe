@@ -15,6 +15,7 @@ import {FormProvider, useForm} from 'react-hook-form';
 import {z} from "zod";
 import {FormSchema} from "@/app_components/inference_settings/schema.tsx";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {Placeholder} from "@/app_components/placeholder.tsx";
 
 
 function App() {
@@ -42,7 +43,7 @@ function App() {
     <div className="flex m-0 w-screen">
       <FormProvider {...methods}>
         <Sidebar />
-        <div className="flex flex-col h-screen">
+        <div className="flex flex-col h-screen w-full">
           <ImageList />
         </div>
         <WebcamCapture/>
@@ -79,6 +80,10 @@ const ImageList = () => {
       })
     }
   }, [roasts]);
+
+  if (roasts.length === 0) {
+    return <Placeholder />
+  }
 
   return (
       <div className="w-full overflow-y-scroll flex flex-col">
