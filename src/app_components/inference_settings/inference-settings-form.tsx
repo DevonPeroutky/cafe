@@ -1,7 +1,7 @@
 import {Input} from "@/components/ui/input.tsx";
 import {CameraIcon, Loader2, MonitorUp, RefreshCw} from "lucide-react";
 import {Button} from "@/components/ui/button.tsx";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useContext } from "react";
 import {useRecoilState, useRecoilValue} from "recoil";
 import {imageState, pendingRoastState} from "@/data/local-state/images.tsx";
 import {

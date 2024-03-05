@@ -22,7 +22,7 @@ export type InferenceProps = {
   systemPrompt: string
   topP: number
   maxNewTokens: number
-  imageFile: File | null
+  imageFile: File | null | undefined
 }
 
 

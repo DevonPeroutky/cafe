@@ -12,6 +12,7 @@ export const useOnSubmit = () => {
   const loras = useRecoilValue(lorasState);
 
   return (data: z.infer<typeof FormSchema>) => {
+    console.log("HERE", data)
     const lora = loras.find(l => l.displayName === data.loraName)
 
     // Resubmit the image with the new inference settings

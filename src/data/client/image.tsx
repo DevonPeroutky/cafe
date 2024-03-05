@@ -62,6 +62,7 @@ export const usePostMessage = () => {
     const loraPath = lora ? `&lora=${lora.path}` : '';
     const formData = new FormData();
 
+    console.log(`IMAGE FILE: `, imageFile);
     if (imageFile) {
       formData.append('file', imageFile!);
     }
