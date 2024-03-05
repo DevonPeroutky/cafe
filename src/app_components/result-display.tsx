@@ -1,5 +1,5 @@
 import {Roast, Status} from "@/data/types.ts";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {Loader2, RefreshCcw, SlidersHorizontal} from "lucide-react";
 import {Button} from "@/components/ui/button.tsx";
 import {useOnSubmit} from "@/app_components/inference_settings/utils.tsx";
@@ -13,6 +13,33 @@ import {pendingRoastState} from "@/data/local-state/images.tsx";
 
 
 const ImageStateDisplay = (roast: Roast) => {
+  const streamingData = roast.augmentedRoast || '';
+  const [displayedText, setDisplayedText] = useState('');
+  let index = 0;
+
+  // Effect to implement the typewriter effect
+  useEffect(() => {
+    const delay = 50;  // Adjust the delay between characters
+
+    if (streamingData === '') {
+        return;
+    }
+
+    const typewriterInterval = setInterval(() => {
+      setDisplayedText(prevText => {
+        if (index === streamingData.length) {
+          clearInterval(typewriterInterval);
+        }
+        index += 1;
+        return streamingData.substring(0, index);
+      });
+    }, delay);
+
+    return () => {
+      clearInterval(typewriterInterval);
+    };
+  }, [streamingData]);  // Run this effect whenever streamingData changes
+
   if (roast.status === Status.Pending) {
     return (
         <div className="flex items-center px-8">
@@ -30,9 +57,10 @@ const ImageStateDisplay = (roast: Roast) => {
   }
 
   return (
-    <div className="flex flex-col px-8">
-      <p>{roast.augmentedRoast}</p>
-    </div>
+      <div className="flex flex-col px-8">
+        {/*<p>{roast.augmentedRoast}</p>*/}
+        <p>{displayedText}</p>
+      </div>
   );
 }
 export const ResultDisplay = (props: Roast) => {
