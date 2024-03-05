@@ -1,8 +1,8 @@
-import {base64StringToFile} from "@/utils.ts";
 import {InferenceProps, Status} from "../types";
-import {useRecoilState, useRecoilValue} from "recoil";
-import {finalizedRoastState, imageState, pendingRoastState} from "../local-state/images";
+import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
+import {finalizedRoastState, imageState, pendingRoastState } from "../local-state/images";
 import {API_ENDPOINT} from "@/data/client/constants.ts";
+
 
 export const useUploadImage = () => {
   const [roasts, setRoasts] = useRecoilState(imageState);
@@ -53,39 +53,61 @@ export const useUploadImage = () => {
   }
 }
 
-export const useUploadImageWithStreamingResponse = () => {
-    const [roasts, setRoasts] = useRecoilState(imageState);
 
-    return async (imageSrc: string, filename =  'image.jpeg', mimeType = 'image/jpeg') => {
-      const uploadFile = base64StringToFile(imageSrc, filename, mimeType)
+export const usePostMessage = () => {
+  const setRoasts = useSetRecoilState(imageState);
 
-      if (imageSrc) {
-        const formData = new FormData();
-        formData.append('file', uploadFile);
+  return async (roastId: string, inferenceProps: InferenceProps) => {
+    const { imageFile, prompt, systemPrompt, topP, temperature, maxNewTokens, lora } = inferenceProps
+    const loraPath = lora ? `&lora=${lora.path}` : '';
+    const formData = new FormData();
 
-        const res = await fetch('http://34.146.237.185:40000/worker_get_status', {  method: 'POST' })
-        const data = await res.json()
-
-        const llava_worker_url = 'http://34.146.237.185:40000/worker_generate_stream'
-        return fetch(llava_worker_url, {
-          method: 'POST',
-          body: formData,
-        })
-            .then(response => response.body!.pipeThrough(new TextDecoderStream()))
-            .then(reader => {
-              const streamReader = reader.getReader();
-
-              // Read chunks of data
-              streamReader.read().then(({ value, done }) => {
-                if (!done) {
-                  console.log('Received chunk:', value);
-                  // Handle the received data
-                }
-              });
-            });
-      }
-      else {
-        console.error('No file selected');
-      }
+    if (imageFile) {
+      formData.append('file', imageFile!);
     }
+    const endpoint = `${API_ENDPOINT}/message?prompt=${prompt}&system_prompt=${systemPrompt}&temperature=${temperature}&top_p=${topP}&max_new_tokens=${maxNewTokens}${loraPath}`
+
+    // Append your form data, including prompt, system_prompt, temperature, top_p, max_new_tokens, file, and lora
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      body: formData,
+    })
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const reader = response.body?.getReader();
+
+    while (true) {
+      const { value, done } = await reader.read();  // Await the read operation
+
+      if (done) {
+        setRoasts((prevRoasts) => {
+          const streamingRoast = prevRoasts.find(r => r.id === roastId)
+          return [
+            ...prevRoasts.filter(r => r.id !== roastId),
+            {
+              ...streamingRoast!,
+              status: Status.Success,
+            },
+          ]
+        });
+        break;
+      }
+
+      const text = new TextDecoder().decode(value);
+      setRoasts((prevRoasts) => {
+        const streamingRoast = prevRoasts.find(r => r.id === roastId)
+        return [
+          ...prevRoasts.filter(r => r.id !== roastId),
+          {
+            ...streamingRoast!,
+            status: Status.Streaming,
+            augmentedRoast: (streamingRoast?.augmentedRoast || "") + text,
+          },
+        ]
+      });
+
+    }
+  }
 }

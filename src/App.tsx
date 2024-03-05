@@ -4,7 +4,7 @@ import {useRecoilState} from 'recoil';
 
 import {imageState} from "./data/local-state/images";
 import {WebcamCapture} from "./app_components/webcam-capture";
-import {useUploadImage } from "./data/client/image";
+import {usePostMessage, useUploadImage} from "./data/client/image";
 import {ResultDisplay} from "@/app_components/result-display.tsx";
 import {Sidebar} from "@/app_components/inference_settings/sidebar.tsx";
 import {base64StringToFile, getCurrentTime} from "@/utils.ts";
@@ -54,10 +54,12 @@ function App() {
 
 const ImageList = () => {
   const uploadImage = useUploadImage();
+  const postMessage = usePostMessage();
   const [roasts, setRoasts] = useRecoilState(imageState);
 
   useEffect(() => {
     const pendingRoast = roasts.find(r => r.status === Status.Pending)
+    console.log(`ROASTS: `, roasts)
 
     if (pendingRoast) {
       toast("Image has been submitted for review", {
@@ -69,7 +71,7 @@ const ImageList = () => {
       })
       const image = base64StringToFile(pendingRoast.imageSrc)
 
-      uploadImage({
+      postMessage(pendingRoast.id, {
         prompt: pendingRoast.prompt,
         systemPrompt: pendingRoast.systemPrompt,
         topP: pendingRoast.topP,

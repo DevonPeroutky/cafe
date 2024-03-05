@@ -4,6 +4,8 @@ import {Roast, Status} from "@/data/types.ts";
 import {useRecoilState, useRecoilValue} from "recoil";
 import {lorasState} from "@/data/local-state/loras.tsx";
 import {imageState} from "@/data/local-state/images.tsx";
+import { v4 as uuidv4 } from "uuid";
+
 
 export const useOnSubmit = () => {
   const [roasts, setRoasts] = useRecoilState(imageState);
@@ -14,6 +16,7 @@ export const useOnSubmit = () => {
 
     // Resubmit the image with the new inference settings
     setRoasts(currVal => ([...currVal, {
+      id: uuidv4(),
       prompt: data.prompt,
       lora: lora,
       systemPrompt: data.systemPrompt,

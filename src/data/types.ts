@@ -1,5 +1,6 @@
 
 export type Roast = {
+  id: string
   imageSrc: string
   fullPrompt: string | undefined | null
   status: Status
@@ -9,6 +10,7 @@ export type Roast = {
 
 export enum Status {
   Pending = "PENDING",
+  Streaming = "STREAMING",
   Success = "SUCCESS",
   Failed = "FAILED",
 }

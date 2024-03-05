@@ -20,6 +20,18 @@ export const pendingRoastState = selector({
   },
 });
 
+export const streamingRoastState = selector({
+  key: 'streamingRoastState',
+  get: ({get}) => {
+    const roasts = get(imageState);
+    const streamingRoast = roasts.filter(r => r.status === Status.Streaming);
+    if (streamingRoast && streamingRoast.length > 1) {
+      throw new Error("Should only ever be one streaming roast at a time")
+    }
+    return streamingRoast && streamingRoast.pop()
+  },
+});
+
 export const finalizedRoastState = selector({
   key: 'finalizedRoastState',
   get: ({get}) => {

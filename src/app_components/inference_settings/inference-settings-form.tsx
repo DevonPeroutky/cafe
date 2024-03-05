@@ -1,5 +1,4 @@
 import {Input} from "@/components/ui/input.tsx";
-import {Status} from "@/data/types.ts";
 import {CameraIcon, Loader2, MonitorUp, RefreshCw} from "lucide-react";
 import {Button} from "@/components/ui/button.tsx";
 import React, {useContext, useEffect, useState} from "react";
