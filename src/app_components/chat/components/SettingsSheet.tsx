@@ -8,17 +8,20 @@ import {
 } from "@/components/ui/sheet"
 import {SettingsIcon} from "lucide-react";
 import React from "react";
+import {InferenceSettingsForm} from "@/app_components/inference_settings/inference-settings-form.tsx";
 
 export const SettingsSheet = () => {
   return (
       <Sheet>
-        <SheetTrigger><SettingsIcon className="w-5 h-5"/></SheetTrigger>
+        <SheetTrigger>
+          <SettingsIcon className="w-5 h-5  text-gray-500 rounded-lg cursor-pointer outline-0"/>
+        </SheetTrigger>
         <SheetContent>
           <SheetHeader>
-            <SheetTitle>Are you absolutely sure?</SheetTitle>
+            <SheetTitle>Inference Settings</SheetTitle>
             <SheetDescription>
-              This action cannot be undone. This will permanently delete your account
-              and remove your data from our servers.
+              Coming soon...
+              {/*<InferenceSettingsForm/>*/}
             </SheetDescription>
           </SheetHeader>
         </SheetContent>

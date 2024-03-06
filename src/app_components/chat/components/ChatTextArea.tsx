@@ -41,10 +41,6 @@ export const ChatTextArea = () => {
     <div className="w-full">
       <label htmlFor="chat" className="sr-only text-left">Your message</label>
       <div className="flex items-center px-3 rounded-2xl border border-solid gap-x-2">
-        <button type="button"
-                className="inline-flex justify-center text-gray-500 rounded-lg cursor-pointer outline-0">
-          <SettingsIcon className="w-5 h-5"/>
-        </button>
         <SettingsSheet />
         <button type="button"
                 className="inline-flex justify-center text-gray-500 rounded-lg cursor-pointer outline-0">
