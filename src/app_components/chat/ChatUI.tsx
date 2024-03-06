@@ -48,7 +48,7 @@ const ChatUI: React.FC = () => {
 
   return (
       <div className="flex flex-col p-4 h-screen min-w-[50%] max-w-[750px] gap-y-4">
-        <div className="flex flex-col flex-grow gap-y-6 overflow-y-auto bg-red-400" ref={divRef}>
+        <div className="flex flex-col flex-grow gap-y-6 overflow-y-auto" ref={divRef}>
           { roasts.map((roast, idx ) => (<RoastDisplay {...roast} key={idx} />)) }
         </div>
         <div className="flex w-full">

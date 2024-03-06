@@ -26,10 +26,10 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isUser , isLoading }
             {/*<span className="text-sm font-normal text-gray-500 dark:text-gray-400">{time}</span>*/}
           </div>
           {isLoading ?
-              <p className="flex italic items-center text-sm font-normal text-gray-900 dark:text-white">
+              <p className="flex italic items-center text-sm font-normal text-gray-400 dark:text-white">
                 <Loader2 className="h-4 w-4 mr-2 animate-spin"/> Hold on asshole...
               </p> :
-              <p className="text-sm text-gray-400 font-normal text-gray-900 dark:text-white">{message}</p>
+              <p className="text-sm font-normal text-gray-900 dark:text-white">{message}</p>
           }
         </div>
       </div>
