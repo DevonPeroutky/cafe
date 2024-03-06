@@ -17,9 +17,11 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isUser , isLoading }
       hour12: true,
   });
 
+  const userIcon = isUser ? "/user-icon.svg" : "/ai-icon.svg";
+
   return (
       <div className="flex items-start gap-2.5 w-full">
-        <img className="w-6 h-6 rounded-full" src="/person.png" alt="Jese image"/>
+        <img className="w-6 h-6 rounded-full" src={userIcon} alt="Jese image"/>
         <div className="flex flex-col w-full leading-1.5">
           <div className="flex items-center space-x-2 rtl:space-x-reverse">
             <span className="pb-1 text-md font-semibold text-gray-900 dark:text-white">{isUser ? "You" : `Your Mother's Cunt`}</span>

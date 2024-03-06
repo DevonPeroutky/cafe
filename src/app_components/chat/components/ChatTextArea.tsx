@@ -5,6 +5,8 @@ import AppContext from "@/context.ts";
 import Webcam from "react-webcam";
 import {useRecoilValue} from "recoil";
 import {pendingRoastState, streamingRoastState} from "@/data/local-state/images.tsx";
+import {SettingsIcon} from "lucide-react";
+import {SettingsSheet} from "@/app_components/chat/components/SettingsSheet.tsx";
 
 export const ChatTextArea = () => {
   const submit = useOnSubmit();
@@ -38,9 +40,15 @@ export const ChatTextArea = () => {
   return (
     <div className="w-full">
       <label htmlFor="chat" className="sr-only text-left">Your message</label>
-      <div className="flex items-center px-3 rounded-2xl border border-solid">
-        <button type="button" className="inline-flex justify-center p-2 text-gray-500 rounded-lg cursor-pointer outline-0">
-          <PhotoIcon className="w-5 h-5" />
+      <div className="flex items-center px-3 rounded-2xl border border-solid gap-x-2">
+        <button type="button"
+                className="inline-flex justify-center text-gray-500 rounded-lg cursor-pointer outline-0">
+          <SettingsIcon className="w-5 h-5"/>
+        </button>
+        <SettingsSheet />
+        <button type="button"
+                className="inline-flex justify-center text-gray-500 rounded-lg cursor-pointer outline-0">
+          <PhotoIcon className="w-5 h-5"/>
         </button>
         <textarea
             id="chat"
@@ -57,13 +65,13 @@ export const ChatTextArea = () => {
 
               }
             }}
-            placeholder="Your message..." />
+            placeholder="Your message..."/>
         <button
             disabled={disabled}
             onClick={handleSubmit}
             className="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-50 outline-0"
         >
-          <PaperAirplaneIcon className={`w-5 h-5`} />
+          <PaperAirplaneIcon className={`w-5 h-5`}/>
         </button>
       </div>
     </div>
