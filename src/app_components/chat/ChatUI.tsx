@@ -1,17 +1,14 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect} from 'react';
 import {ChatTextArea} from "@/app_components/chat/components/ChatTextArea.tsx";
 import {useRecoilState} from "recoil";
 import {imageState} from "@/data/local-state/images.tsx";
-import ChatMessage from "@/app_components/chat/ChatMessage.tsx";
-import RoastDisplay from "@/app_components/chat/ChatMessage.tsx";
 import {Status} from "@/data/types.ts";
-import {toast} from "sonner";
-import {base64StringToFile, getCurrentTime} from "@/utils.ts";
+import {base64StringToFile} from "@/utils.ts";
 import {usePostMessage} from "@/data/client/image.tsx";
+import ChatMessageList from "@/app_components/chat/ChatMessageList.tsx";
 
 const ChatUI: React.FC = () => {
   const postMessage = usePostMessage();
-  const divRef = useRef(null);
   const [roasts, setRoasts] = useRecoilState(imageState);
 
   useEffect(() => {
@@ -32,25 +29,9 @@ const ChatUI: React.FC = () => {
     }
   }, [roasts]);
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [roasts]); // This effect runs once after the component mounts
-
-  const scrollToBottom = () => {
-    if (divRef.current) {
-      // divRef.current.scrollTop = divRef.current.scrollHeight;
-      divRef.current.scrollTo({
-        top: divRef.current.scrollHeight,
-        behavior: 'smooth'
-      });
-    }
-  };
-
   return (
       <div className="flex flex-col p-4 h-screen min-w-[50%] max-w-[750px] gap-y-4">
-        <div className="flex flex-col flex-grow gap-y-6 overflow-y-auto" ref={divRef}>
-          { roasts.map((roast, idx ) => (<RoastDisplay {...roast} key={idx} />)) }
-        </div>
+        <ChatMessageList />
         <div className="flex w-full">
           <ChatTextArea />
         </div>
