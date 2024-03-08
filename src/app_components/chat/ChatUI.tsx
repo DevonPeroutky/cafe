@@ -3,12 +3,13 @@ import {ChatTextArea} from "@/app_components/chat/components/ChatTextArea.tsx";
 import {useRecoilState} from "recoil";
 import {imageState} from "@/data/local-state/images.tsx";
 import {Status} from "@/data/types.ts";
-import {base64StringToFile} from "@/utils.ts";
-import {usePostMessage} from "@/data/client/image.tsx";
+import {base64StringToFile } from "@/utils.ts";
+import { useUploadImage} from "@/data/client/image.tsx";
 import ChatMessageList from "@/app_components/chat/ChatMessageList.tsx";
 
 const ChatUI: React.FC = () => {
-  const postMessage = usePostMessage();
+  const postMessage = useUploadImage();
+  // const postMessage = usePostMessage();
   const [roasts, setRoasts] = useRecoilState(imageState);
 
   useEffect(() => {
@@ -17,9 +18,8 @@ const ChatUI: React.FC = () => {
     console.log(pendingRoast)
 
     if (pendingRoast) {
-      postMessage(pendingRoast.id, {
+      postMessage(pendingRoast.id, "devon", {
         prompt: pendingRoast.prompt,
-        systemPrompt: pendingRoast.systemPrompt,
         topP: pendingRoast.topP,
         temperature: pendingRoast.temperature,
         maxNewTokens: pendingRoast.maxNewTokens,

@@ -1,28 +1,22 @@
 import {InferenceProps, Status} from "../types";
-import {useRecoilState, useRecoilValue, useSetRecoilState} from "recoil";
-import {finalizedRoastState, imageState, pendingRoastState } from "../local-state/images";
+import {useSetRecoilState} from "recoil";
+import { imageState } from "../local-state/images";
 import {API_ENDPOINT} from "@/data/client/constants.ts";
 
 
 export const useUploadImage = () => {
-  const [roasts, setRoasts] = useRecoilState(imageState);
-  const pendingRoast = useRecoilValue(pendingRoastState)
-  const finalizedRoasts = useRecoilValue(finalizedRoastState)
+  const setRoasts = useSetRecoilState(imageState);
 
-  return async (inference_props: InferenceProps) => {
-    const { imageFile, prompt, systemPrompt, topP, temperature, maxNewTokens, lora } = inference_props
+  return async (roastId: string, userId: string, inferenceProps: InferenceProps) => {
+    const { imageFile, prompt, topP, temperature, maxNewTokens, lora } = inferenceProps
 
     const formData = new FormData();
     formData.append('file', imageFile!);
 
-    if (!pendingRoast) {
-      throw new Error('No pending roast found');
-    }
-
     const loraPath = lora ? `&lora=${lora.path}` : ''
 
     try {
-      const response = await fetch(`${API_ENDPOINT}/uploadfile?prompt=${prompt}&system_prompt=${systemPrompt}&temperature=${temperature}&top_p=${topP}&max_new_tokens=${maxNewTokens}${loraPath}`, {
+      const response = await fetch(`${API_ENDPOINT}/uploadfile?user_id=${userId}&prompt=${prompt}&temperature=${temperature}&top_p=${topP}&max_new_tokens=${maxNewTokens}${loraPath}`, {
         method: 'POST',
         body: formData,
       });
@@ -30,24 +24,43 @@ export const useUploadImage = () => {
       if (response.ok) {
         const data = await response.json();
 
-        setRoasts([...finalizedRoasts, {...pendingRoast!,
-          status: Status.Success,
-          augmentedRoast: data.augmented_response,
-          basicRoast: data.basic_response,
-          fullPrompt: data.full_prompt,
-        }])
+        setRoasts((prevRoasts) => {
+          const pendingRoast = prevRoasts.find(r => r.id === roastId)
+          return [
+            ...prevRoasts.filter(r => r.id !== roastId),
+            {
+              ...pendingRoast!,
+              status: Status.Success,
+              augmentedRoast: (data?.augmented_response || ""),
+            },
+          ]
+        });
 
         return data
       } else {
-        setRoasts([...finalizedRoasts, {...pendingRoast!,
-          status: Status.Failed,
-        }])
+        setRoasts((prevRoasts) => {
+          const pendingRoast = prevRoasts.find(r => r.id === roastId)
+          return [
+            ...prevRoasts.filter(r => r.id !== roastId),
+            {
+              ...pendingRoast!,
+              status: Status.Failed,
+            },
+          ]
+        });
         console.error('Server error:', response.status, response.statusText);
       }
     } catch (e) {
-      setRoasts([...finalizedRoasts, {...pendingRoast!,
-        status: Status.Failed,
-      }])
+      setRoasts((prevRoasts) => {
+        const pendingRoast = prevRoasts.find(r => r.id === roastId)
+        return [
+          ...prevRoasts.filter(r => r.id !== roastId),
+          {
+            ...pendingRoast!,
+            status: Status.Failed,
+          },
+        ]
+      });
       console.error('Server error:', e);
     }
   }

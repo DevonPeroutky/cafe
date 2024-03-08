@@ -19,7 +19,7 @@ export type InferenceProps = {
   lora?: LoraProps | undefined
   temperature: number
   prompt: string
-  systemPrompt: string
+  // systemPrompt: string
   topP: number
   maxNewTokens: number
   imageFile: File | null | undefined

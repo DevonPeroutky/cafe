@@ -14,13 +14,13 @@ export const useOnSubmit = () => {
   return (data: z.infer<typeof FormSchema>) => {
     console.log("HERE", data)
     const lora = loras.find(l => l.displayName === data.loraName)
+    console.log(`LORA: `, lora)
 
     // Resubmit the image with the new inference settings
     setRoasts(currVal => ([...currVal, {
       id: uuidv4(),
       prompt: data.prompt,
       lora: lora,
-      systemPrompt: data.systemPrompt,
       fullPrompt: null,
       basicRoast: null,
       augmentedRoast: null,

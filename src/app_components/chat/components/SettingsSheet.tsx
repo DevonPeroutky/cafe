@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/sheet"
 import {SettingsIcon} from "lucide-react";
 import React from "react";
-import {InferenceSettingsForm} from "@/app_components/inference_settings/inference-settings-form.tsx";
 
 export const SettingsSheet = () => {
   return (

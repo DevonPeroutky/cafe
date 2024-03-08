@@ -28,7 +28,6 @@ export const ChatTextArea = () => {
     const imageSrc = capture() as string | undefined
     submit({
       prompt: prompt,
-      systemPrompt: "A chat between a human and a clever, witty, racist, sexist artificial intelligence whose job it is to give the meanest insults possible. The assistant gives funny racist and witty sexists response to the human's questions.",
       loraName: "13000-4-epochs",
       imageSrc: imageSrc,
       topP: 0.5,
