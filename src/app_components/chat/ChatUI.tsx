@@ -32,7 +32,7 @@ const ChatUI: React.FC = () => {
   }, [roasts]);
 
   return (
-      <div className="flex flex-col p-4 h-screen min-w-[50%] max-w-[750px] gap-y-4">
+      <div className="flex flex-col p-4 h-screen md:min-w-[750px] max-w-[750px] gap-y-4">
         <ChatMessageList />
         <div className="flex w-full">
           <ChatTextArea />

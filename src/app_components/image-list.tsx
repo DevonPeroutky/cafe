@@ -1,5 +1,5 @@
-import {usePostMessage} from "@/data/client/image.tsx";
-import {useRecoilState} from "recoil";
+import {usePostMessage, useUploadImage} from "@/data/client/image.tsx";
+import {useRecoilState, useRecoilValue} from "recoil";
 import {imageState} from "@/data/local-state/images.tsx";
 import React, {useEffect} from "react";
 import {Status} from "@/data/types.ts";
@@ -7,9 +7,12 @@ import {toast} from "sonner";
 import {base64StringToFile, getCurrentTime} from "@/utils.ts";
 import {Placeholder} from "@/app_components/placeholder.tsx";
 import {ResultDisplay} from "@/app_components/result-display.tsx";
+import {userState} from "@/data/local-state/user.tsx";
 
 export const ImageList = () => {
-  const postMessage = usePostMessage();
+  // const postMessage = usePostMessage();
+  const postMessage = useUploadImage();
+  const userId = useRecoilValue(userState);
   const [roasts, setRoasts] = useRecoilState(imageState);
 
   useEffect(() => {
@@ -26,7 +29,7 @@ export const ImageList = () => {
       })
       const image = base64StringToFile(pendingRoast.imageSrc)
 
-      postMessage(pendingRoast.id, {
+      postMessage(pendingRoast.id, userId,  {
         prompt: pendingRoast.prompt,
         topP: pendingRoast.topP,
         temperature: pendingRoast.temperature,

@@ -2,6 +2,7 @@
 import React from 'react';
 import {Roast, Status} from "@/data/types.ts";
 import {Loader2} from "lucide-react";
+import {TypewriterText} from "@/app_components/chat/components/TypewriterText.tsx";
 
 interface ChatMessageProps {
   message: string | undefined | null;
@@ -34,10 +35,10 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, imageSrc, isUser , i
               </div> : null
           }
           {isLoading ?
-              <p className="flex italic items-center text-sm font-normal text-gray-400 dark:text-white">
+              <p className="flex italic items-center font-normal text-gray-400 dark:text-white ">
                 <Loader2 className="h-4 w-4 mr-2 animate-spin"/> Hold on asshole...
               </p> :
-              <p className="text-sm font-normal text-gray-900 dark:text-white">{message}</p>
+              (isUser) ? <p className="max-w-full font-normal text-gray-900 dark:text-white">{message}</p> : <TypewriterText text={message || ""} />
           }
         </div>
       </div>
