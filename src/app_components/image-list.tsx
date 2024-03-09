@@ -1,4 +1,4 @@
-import {usePostMessage, useUploadImage} from "@/data/client/image.tsx";
+import {usePostMessage} from "@/data/client/image.tsx";
 import {useRecoilState} from "recoil";
 import {imageState} from "@/data/local-state/images.tsx";
 import React, {useEffect} from "react";
@@ -28,7 +28,6 @@ export const ImageList = () => {
 
       postMessage(pendingRoast.id, {
         prompt: pendingRoast.prompt,
-        systemPrompt: pendingRoast.systemPrompt,
         topP: pendingRoast.topP,
         temperature: pendingRoast.temperature,
         maxNewTokens: pendingRoast.maxNewTokens,

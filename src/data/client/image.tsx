@@ -71,7 +71,7 @@ export const usePostMessage = () => {
   const setRoasts = useSetRecoilState(imageState);
 
   return async (roastId: string, inferenceProps: InferenceProps) => {
-    const { imageFile, prompt, systemPrompt, topP, temperature, maxNewTokens, lora } = inferenceProps
+    const { imageFile, prompt,  topP, temperature, maxNewTokens, lora } = inferenceProps
     const loraPath = lora ? `&lora=${lora.path}` : '';
     const formData = new FormData();
 
@@ -79,7 +79,7 @@ export const usePostMessage = () => {
     if (imageFile) {
       formData.append('file', imageFile!);
     }
-    const endpoint = `${API_ENDPOINT}/message?prompt=${prompt}&system_prompt=${systemPrompt}&temperature=${temperature}&top_p=${topP}&max_new_tokens=${maxNewTokens}${loraPath}`
+    const endpoint = `${API_ENDPOINT}/message?prompt=${prompt}&temperature=${temperature}&top_p=${topP}&max_new_tokens=${maxNewTokens}${loraPath}`
 
     // Append your form data, including prompt, system_prompt, temperature, top_p, max_new_tokens, file, and lora
     const response = await fetch(endpoint, {
@@ -93,7 +93,7 @@ export const usePostMessage = () => {
     const reader = response.body?.getReader();
 
     while (true) {
-      const { value, done } = await reader.read();  // Await the read operation
+      const { value, done } = await reader!.read();  // Await the read operation
 
       if (done) {
         setRoasts((prevRoasts) => {

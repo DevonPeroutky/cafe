@@ -90,25 +90,25 @@ export const InferenceSettingsForm = () => {
           }
       />
       <LoraSelect />
-      <FormField
-          name="systemPrompt"
-          control={control}
-          render={({field}) => <FormItem>
-                                  <FormLabel>System Prompt</FormLabel>
-                                  <FormControl>
-                                  <Textarea
-                                  rows={8}
-                                  placeholder="The system prompt"
-                                  className="resize-none"
-                                  {...field}
-                                  />
-                                  </FormControl>
-                                  <FormDescription>
-                                  Informs the A.I. how to behave
-                                  </FormDescription>
-                                  <FormMessage/>
-                                  </FormItem>}
-      />
+      {/*<FormField*/}
+      {/*    name="systemPrompt"*/}
+      {/*    control={control}*/}
+      {/*    render={({field}) => <FormItem>*/}
+      {/*                            <FormLabel>System Prompt</FormLabel>*/}
+      {/*                            <FormControl>*/}
+      {/*                            <Textarea*/}
+      {/*                            rows={8}*/}
+      {/*                            placeholder="The system prompt"*/}
+      {/*                            className="resize-none"*/}
+      {/*                            {...field}*/}
+      {/*                            />*/}
+      {/*                            </FormControl>*/}
+      {/*                            <FormDescription>*/}
+      {/*                            Informs the A.I. how to behave*/}
+      {/*                            </FormDescription>*/}
+      {/*                            <FormMessage/>*/}
+      {/*                            </FormItem>}*/}
+      {/*/>*/}
       <FormField
           name="prompt"
           control={control}

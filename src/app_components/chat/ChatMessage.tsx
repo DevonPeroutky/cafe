@@ -5,11 +5,12 @@ import {Loader2} from "lucide-react";
 
 interface ChatMessageProps {
   message: string | undefined | null;
+  imageSrc?: string;
   isUser: boolean;
   isLoading: boolean;
 }
 
-const ChatMessage: React.FC<ChatMessageProps> = ({ message, isUser , isLoading }) => {
+const ChatMessage: React.FC<ChatMessageProps> = ({ message, imageSrc, isUser , isLoading }) => {
   // get the current time
   const time = new Date().toLocaleTimeString('en-US', {
       hour: 'numeric',
@@ -27,6 +28,11 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isUser , isLoading }
             <span className="pb-1 text-md font-semibold text-gray-900 dark:text-white">{isUser ? "You" : `Your Mother's Cunt`}</span>
             {/*<span className="text-sm font-normal text-gray-500 dark:text-gray-400">{time}</span>*/}
           </div>
+          { imageSrc ?
+              <div className="flex justify-start w-full gap-y-2 gap-x-2">
+                <img src={imageSrc} alt="photo" className="rounded-2xl w-1/2"/>
+              </div> : null
+          }
           {isLoading ?
               <p className="flex italic items-center text-sm font-normal text-gray-400 dark:text-white">
                 <Loader2 className="h-4 w-4 mr-2 animate-spin"/> Hold on asshole...
@@ -39,11 +45,11 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, isUser , isLoading }
 };
 
 
-const RoastDisplay: React.FC<Roast> = ({augmentedRoast, prompt, status }) => {
+const RoastDisplay: React.FC<Roast> = ({augmentedRoast, prompt, status, imageSrc , displayImage}) => {
 
   return (
       <>
-        <ChatMessage message={prompt} isUser={true} isLoading={false} />
+        <ChatMessage message={prompt} imageSrc={displayImage ? imageSrc : undefined} isUser={true} isLoading={false} />
         <ChatMessage message={augmentedRoast} isUser={false} isLoading={status === Status.Pending}/>
       </>
   )

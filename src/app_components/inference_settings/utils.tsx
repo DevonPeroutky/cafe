@@ -11,10 +11,8 @@ export const useOnSubmit = () => {
   const [roasts, setRoasts] = useRecoilState(imageState);
   const loras = useRecoilValue(lorasState);
 
-  return (data: z.infer<typeof FormSchema>) => {
-    console.log("HERE", data)
+  return (data: z.infer<typeof FormSchema>, displayImage: boolean) => {
     const lora = loras.find(l => l.displayName === data.loraName)
-    console.log(`LORA: `, lora)
 
     // Resubmit the image with the new inference settings
     setRoasts(currVal => ([...currVal, {
@@ -24,6 +22,7 @@ export const useOnSubmit = () => {
       fullPrompt: null,
       basicRoast: null,
       augmentedRoast: null,
+      displayImage: displayImage,
       imageSrc: data.imageSrc,
       topP: data.topP,
       temperature: data.temperature,

@@ -26,7 +26,7 @@ const ImageStateDisplay = (roast: Roast) => {
     }
 
     const typewriterInterval = setInterval(() => {
-      setDisplayedText(prevText => {
+      setDisplayedText(_ => {
         if (index === streamingData.length) {
           clearInterval(typewriterInterval);
         }
@@ -72,10 +72,10 @@ export const ResultDisplay = (props: Roast) => {
     );
 }
 
-const ImageThumbnail = (props: Roast) => {
+export const ImageThumbnail = (props: Roast) => {
   const submit = useOnSubmit();
   const { setValue, getValues, formState } = useFormContext()
-  const { imageSrc, maxNewTokens, temperature, topP, lora, prompt, systemPrompt} = props;
+  const { imageSrc, maxNewTokens, temperature, topP, lora, prompt } = props;
 
   const pendingRoast = useRecoilValue(pendingRoastState)
   const disabled = pendingRoast !== undefined
@@ -147,10 +147,6 @@ const ImageThumbnail = (props: Roast) => {
                         defaultValue={lora?.displayName || "Base Model"}
                         className="col-span-2 h-8"
                     />
-                  </div>
-                  <div className="flex flex-col gap-4 ">
-                    <Label htmlFor="model">System Prompt</Label>
-                    <Textarea disabled value={systemPrompt} rows={6}/>
                   </div>
                   <div className="flex flex-col items gap-4">
                     <Label htmlFor="model">Prompt</Label>

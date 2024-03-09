@@ -14,8 +14,11 @@ const ChatMessageList: React.FC = () => {
 
   const scrollToBottom = () => {
     if (divRef.current) {
-      // divRef.current.scrollTop = divRef.current.scrollHeight;
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
       divRef.current.scrollTo({
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         top: divRef.current.scrollHeight,
         behavior: 'smooth'
       });

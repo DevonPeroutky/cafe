@@ -6,11 +6,11 @@ export const FormSchema = z.object({
   }).max(512, {
     message: "Prompt must be at most 512 characters.",
   }),
-  systemPrompt: z.string().min(  2, {
-    message: "System Prompt must be at least 2 characters.",
-  }).max(512, {
-    message: "System Prompt must be at most 512 characters.",
-  }),
+  // systemPrompt: z.string().min(  2, {
+  //   message: "System Prompt must be at least 2 characters.",
+  // }).max(512, {
+  //   message: "System Prompt must be at most 512 characters.",
+  // }),
   temperature: z.coerce.number().min(0, {
     message: "Temperature must a number greater than 0",
   }).max(1, {

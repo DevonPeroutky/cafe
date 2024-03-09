@@ -1,6 +1,7 @@
 
 export type Roast = {
   id: string
+  displayImage: boolean
   imageSrc: string
   fullPrompt: string | undefined | null
   status: Status
