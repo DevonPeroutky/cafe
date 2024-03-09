@@ -25,11 +25,11 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, imageSrc, isUser , i
         <img className="w-6 h-6 rounded-full" src={userIcon} alt="Jese image"/>
         <div className="flex flex-col w-full leading-1.5">
           <div className="flex items-center space-x-2 rtl:space-x-reverse">
-            <span className="pb-1 text-md font-semibold text-gray-900 dark:text-white">{isUser ? "You" : `Your Mother's Cunt`}</span>
+            <span className="pb-1 text-md font-semibold text-gray-900 dark:text-white">{isUser ? "You" : `Dr. Beau Nerr`}</span>
             {/*<span className="text-sm font-normal text-gray-500 dark:text-gray-400">{time}</span>*/}
           </div>
           { imageSrc ?
-              <div className="flex justify-start w-full gap-y-2 gap-x-2">
+              <div className="flex justify-start w-full gap-y-2 gap-x-2 pb-2">
                 <img src={imageSrc} alt="photo" className="rounded-2xl w-1/2"/>
               </div> : null
           }

@@ -28,7 +28,7 @@ export const ChatTextArea = () => {
 
   const handleSubmit = (imageSrc: string | undefined, displayImage: boolean) => {
     submit({
-      prompt: prompt || "",
+      prompt: prompt || "Roast this person",
       loraName: "13000-4-epochs",
       imageSrc: imageSrc,
       topP: 0.5,
@@ -60,7 +60,7 @@ export const ChatTextArea = () => {
             id="chat"
             rows={1}
             className="outline-0 m-0 w-full resize-none border-0 bg-transparent focus:ring-0 focus-visible:ring-0 dark:bg-transparent py-[10px] pr-10 md:py-3.5 md:pr-12 max-h-[25dvh] max-h-52 placeholder-black/50 dark:placeholder-white/50 pl-2"
-            value={prompt || undefined }
+            value={prompt || '' }
             onChange={e => setPrompt(e.target.value)}
             onKeyDown={(e) => {
               if (!e.shiftKey && e.key === 'Enter') {
