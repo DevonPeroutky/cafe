@@ -6,7 +6,11 @@ export const useLoras = () => {
   const [loras, setLoras] = useRecoilState(lorasState)
 
   return async () => {
-    fetch(`${API_ENDPOINT}/lora-checkpoints`)
+    fetch(`${API_ENDPOINT}/lora-checkpoints`, {
+      headers: {
+        'ngrok-skip-browser-warning': 'true',
+      }
+    })
         .then(response => response.json())
         .then(data =>  {
           setLoras(data)})

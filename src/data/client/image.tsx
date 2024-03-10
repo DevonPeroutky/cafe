@@ -19,6 +19,9 @@ export const useUploadImage = () => {
       const response = await fetch(`${API_ENDPOINT}/uploadfile?user_id=${userId}&prompt=${prompt}&temperature=${temperature}&top_p=${topP}&max_new_tokens=${maxNewTokens}${loraPath}`, {
         method: 'POST',
         body: formData,
+        headers: {
+          'ngrok-skip-browser-warning': 'true',
+        }
       });
 
       if (response.ok) {
