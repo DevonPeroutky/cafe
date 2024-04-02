@@ -13,7 +13,7 @@ import {pendingRoastState} from "@/data/local-state/images.tsx";
 
 
 const ImageStateDisplay = (roast: Roast) => {
-  const streamingData = roast.augmentedRoast || '';
+  const streamingData = roast.roast || '';
   const [displayedText, setDisplayedText] = useState('');
   let index = 0;
 
@@ -58,7 +58,6 @@ const ImageStateDisplay = (roast: Roast) => {
 
   return (
       <div className="flex flex-col px-8">
-        {/*<p>{roast.augmentedRoast}</p>*/}
         <p>{displayedText}</p>
       </div>
   );

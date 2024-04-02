@@ -64,10 +64,9 @@ export const ChatTextArea = () => {
             onChange={e => setPrompt(e.target.value)}
             onKeyDown={(e) => {
               if (!e.shiftKey && e.key === 'Enter') {
-                const imageSrc = capture() as string | undefined
+                // const imageSrc = capture() as string | undefined
                 e.preventDefault()
-                console.log('Enter pressed');
-                handleSubmit(imageSrc, false)
+                handleSubmit(undefined, false)
                 setPrompt('')
               }
             }}
@@ -75,9 +74,9 @@ export const ChatTextArea = () => {
         <button
             disabled={disabled}
             onClick={() => {
-              const imageSrc = capture() as string | undefined
+              // const imageSrc = capture() as string | undefined
               console.log('Enter pressed');
-              handleSubmit(imageSrc, false)
+              handleSubmit(undefined, false)
               setPrompt('')
             }}
             className="inline-flex justify-center p-2 text-blue-600 rounded-full cursor-pointer hover:bg-blue-100 dark:text-blue-500 dark:hover:bg-gray-600 disabled:cursor-not-allowed disabled:opacity-50 outline-0"

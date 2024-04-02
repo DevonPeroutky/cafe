@@ -5,8 +5,7 @@ export type Roast = {
   imageSrc: string
   fullPrompt: string | undefined | null
   status: Status
-  basicRoast: string | undefined | null
-  augmentedRoast: string | undefined | null
+  roast: string | undefined | null
 } & InferenceProps
 
 export enum Status {

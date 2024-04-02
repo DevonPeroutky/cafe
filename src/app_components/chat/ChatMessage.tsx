@@ -46,12 +46,12 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, imageSrc, isUser , i
 };
 
 
-const RoastDisplay: React.FC<Roast> = ({augmentedRoast, prompt, status, imageSrc , displayImage}) => {
+const RoastDisplay: React.FC<Roast> = ({roast, prompt, status, imageSrc , displayImage}) => {
 
   return (
       <>
         <ChatMessage message={prompt} imageSrc={displayImage ? imageSrc : undefined} isUser={true} isLoading={false} />
-        <ChatMessage message={augmentedRoast} isUser={false} isLoading={status === Status.Pending}/>
+        <ChatMessage message={roast} isUser={false} isLoading={status === Status.Pending}/>
       </>
   )
 }

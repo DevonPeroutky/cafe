@@ -1,4 +1,4 @@
-import {usePostMessage, useUploadImage} from "@/data/client/image.tsx";
+import {useUploadImage} from "@/data/client/image.tsx";
 import {useRecoilState, useRecoilValue} from "recoil";
 import {imageState} from "@/data/local-state/images.tsx";
 import React, {useEffect} from "react";
@@ -10,7 +10,6 @@ import {ResultDisplay} from "@/app_components/result-display.tsx";
 import {userState} from "@/data/local-state/user.tsx";
 
 export const ImageList = () => {
-  // const postMessage = usePostMessage();
   const postMessage = useUploadImage();
   const userId = useRecoilValue(userState);
   const [roasts, setRoasts] = useRecoilState(imageState);
