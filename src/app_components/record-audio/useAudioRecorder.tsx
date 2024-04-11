@@ -1,9 +1,7 @@
+import {useEffect, useRef, useState} from "react";
 
-import React, { useState, useEffect, useRef } from 'react';
-import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
-import {MicrophoneIcon, StopIcon} from "@heroicons/react/24/outline";
+export const useAudioRecorder = (onRecordingComplete: (audioFile: File) => void) => {
 
-const AudioRecorder = ({ onRecordingComplete }: { onRecordingComplete: (audioFile: File) => void }) => {
   const [isRecording, setIsRecording] = useState(false);
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
@@ -59,26 +57,6 @@ const AudioRecorder = ({ onRecordingComplete }: { onRecordingComplete: (audioFil
     }
   };
 
-  return (
-      <div className="audio-recorder">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger>
-              <button onClick={toggleRecording} className={`record-btn ${isRecording ? 'recording' : ''}`}>
-                {isRecording ? (
-                    <StopIcon className="h-5 w-5 mt-1 text-red-500"/>
-                ) : (
-                    <MicrophoneIcon className="h-5 w-5 mt-1 text-gray-500"/>
-                )}
-              </button>
-            </TooltipTrigger>
-            <TooltipContent>
-              {isRecording ? "Recording..." : "Click to record"}
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
-      </div>
-  )
-};
+  return { isRecording, toggleRecording };
 
-export default AudioRecorder;
+}

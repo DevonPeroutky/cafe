@@ -32,12 +32,14 @@ export const Roast = () => {
   return (
     <div className="flex m-0 w-screen">
       <FormProvider {...methods}>
-        <Sidebar />
+        <Sidebar/>
         <div className="flex flex-col h-screen w-full">
-          <ImageList />
+          <ImageList/>
         </div>
-        <WebcamCapture/>
+        <div className="w-36 h-36 rounded-full absolute bottom-4 right-4 overflow-hidden">
+          <WebcamCapture className="h-full transform -translate-x-1/4" />
+        </div>
       </FormProvider>
     </div>
-    );
+);
 }

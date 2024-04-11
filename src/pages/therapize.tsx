@@ -15,7 +15,9 @@ export const Therapize = () => {
         <div className="min-h-screen w-screen flex items-center justify-center bg-white dark:bg-gray-900">
           <ChatUI/>
         </div>
-        <WebcamCapture/>
+        <div className="w-36 h-36 rounded-full absolute bottom-4 right-4 overflow-hidden">
+          <WebcamCapture className="h-full transform -translate-x-1/4" />
+        </div>
       </>
   );
 }
