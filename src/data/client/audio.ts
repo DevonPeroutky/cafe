@@ -1,8 +1,9 @@
 import {API_ENDPOINT} from "@/data/client/constants.ts";
 
-export const sendAudio = async (audioFile: File): Promise<void> => {
+export const transcribeAudio = async (audioFile: File): Promise<void> => {
+  console.log(`SENDING AUDIO `, audioFile);
   const formData = new FormData();
-  formData.append("file", audioFile);
+  formData.append("audio_file", audioFile);
 
   try {
     const response = await fetch(`${API_ENDPOINT}/transcribe/`, {
@@ -20,3 +21,40 @@ export const sendAudio = async (audioFile: File): Promise<void> => {
     console.error("Error sending audio:", error);
   }
 };
+
+export const audioInputAudioResponse = async (user_id: string, audioFile: File): Promise<void> => {
+  console.log(`SENDING AUDIO `, audioFile);
+  const formData = new FormData();
+  formData.append("audio_file", audioFile);
+
+  fetch(`${API_ENDPOINT}/audio-input-audio-response?user_id=${user_id}`, {
+    method: 'POST',
+    body: formData,
+  })
+      .then(response => response.blob())
+      .then(audioBlob => {
+        console.log(`WE GOT A BLOB `, audioBlob)
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audio = new Audio(audioUrl);
+        audio.play();
+      });
+}
+
+
+export const audioInputStreamAudioResponse = async (user_id: string, audioFile: File): Promise<void> => {
+  console.log(`SENDING AUDIO `, audioFile);
+  const formData = new FormData();
+  formData.append("audio_file", audioFile);
+
+  fetch(`${API_ENDPOINT}/audio-input-stream-audio-response?user_id=${user_id}`, {
+    method: 'POST',
+    body: formData,
+  })
+      .then(response => response.blob())
+      .then(audioBlob => {
+        console.log(`WE GOT A BLOB `, audioBlob)
+        const audioUrl = URL.createObjectURL(audioBlob);
+        const audio = new Audio(audioUrl);
+        audio.play();
+      });
+}

@@ -9,8 +9,12 @@ import {SettingsSheet} from "@/app_components/chat/components/SettingsSheet.tsx"
 import {Label} from "@/components/ui/label.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {binaryFileToBase64String} from "@/utils.ts";
+import AudioRecorder from "@/app_components/chat/AudioRecorder.tsx";
+import {audioInputAudioResponse, audioInputStreamAudioResponse, transcribeAudio} from "@/data/client/audio.ts";
+import {userState} from "@/data/local-state/user.tsx";
 
 export const ChatTextArea = () => {
+  const userId = useRecoilValue(userState);
   const submit = useOnSubmit();
   const [prompt, setPrompt] = useState<string | null>(null);
 
@@ -56,6 +60,8 @@ export const ChatTextArea = () => {
             <PhotoIcon className="h-5 w-5"/>
           </div>
         </Label>
+        {/*<AudioRecorder onRecordingComplete={(audioFile) => audioInputAudioResponse(userId, audioFile)} />*/}
+        <AudioRecorder onRecordingComplete={(audioFile) => audioInputStreamAudioResponse(userId, audioFile)} />
         <textarea
             id="chat"
             rows={1}
