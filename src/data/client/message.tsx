@@ -115,3 +115,24 @@ export const usePostMessage = () => {
     }
   }
 }
+
+
+export const useLoadConversation = () => {
+    const setRoasts = useSetRecoilState(imageState);
+
+    return async (user_id: string) => {
+      try {
+        const response = await fetch(`${API_ENDPOINT}/conversation-history?user_id=${user_id}`);
+
+        if (response.ok) {
+            const data = await response.json();
+
+            setRoasts(data);
+        } else {
+            console.error('Server error:', response.status, response.statusText);
+        }
+      } catch (e) {
+        console.error('Server error:', e);
+        }
+    }
+}

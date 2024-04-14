@@ -33,7 +33,6 @@ export const audioInputAudioResponse = async (user_id: string, audioFile: File):
   })
       .then(response => response.blob())
       .then(audioBlob => {
-        console.log(`WE GOT A BLOB `, audioBlob)
         const audioUrl = URL.createObjectURL(audioBlob);
         const audio = new Audio(audioUrl);
         audio.play();
@@ -41,12 +40,12 @@ export const audioInputAudioResponse = async (user_id: string, audioFile: File):
 }
 
 
-export const audioInputStreamAudioResponse = async (user_id: string, audioFile: File): Promise<void> => {
+export const audioInputStreamAudioResponse = async (user_id: string, audioFile: File): Promise<HTMLAudioElement> => {
   console.log(`SENDING AUDIO `, audioFile);
   const formData = new FormData();
   formData.append("audio_file", audioFile);
 
-  fetch(`${API_ENDPOINT}/audio-input-stream-audio-response?user_id=${user_id}`, {
+  return fetch(`${API_ENDPOINT}/audio-input-stream-audio-response?user_id=${user_id}`, {
     method: 'POST',
     body: formData,
   })
@@ -54,7 +53,6 @@ export const audioInputStreamAudioResponse = async (user_id: string, audioFile: 
       .then(audioBlob => {
         console.log(`WE GOT A BLOB `, audioBlob)
         const audioUrl = URL.createObjectURL(audioBlob);
-        const audio = new Audio(audioUrl);
-        audio.play();
+        return new Audio(audioUrl);
       });
 }
