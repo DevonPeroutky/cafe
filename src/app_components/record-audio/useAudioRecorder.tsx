@@ -60,3 +60,42 @@ export const useAudioRecorder = (onRecordingComplete: (audioFile: File) => void)
   return { isRecording, toggleRecording };
 
 }
+
+
+export const startRecording = async () => {
+  console.log("LISTENING!!!!!!!")
+  try {
+    // Request microphone access
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
+
+    // Create an AudioContext and connect the microphone stream to a processor
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const source = audioContext.createMediaStreamSource(stream);
+
+    // Create a processor to analyze the audio input
+    const processor = audioContext.createScriptProcessor(512, 1, 1);
+
+    // Connect the processor
+    source.connect(processor);
+    processor.connect(audioContext.destination);
+
+    processor.onaudioprocess = (event) => {
+      const input = event.inputBuffer.getChannelData(0);
+      let sum = 0;
+      for (let i = 0; i < input.length; ++i) {
+        sum += input[i] * input[i];
+      }
+      let volume = Math.sqrt(sum / input.length);
+      if (volume > 0.1) { // Threshold value, adjust based on testing
+        console.log('Voice detected');
+        // Implement actions to take on voice detection
+      }
+    };
+  } catch (error) {
+    console.error('Error accessing the microphone', error);
+  }
+}
+
+startRecording();

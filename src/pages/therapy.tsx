@@ -5,7 +5,7 @@ export const Therapy = () => {
 
   return (
       <>
-        <div className="min-h-screen w-screen flex items-center justify-center bg-white dark:bg-gray-900">
+        <div className="min-h-screen w-screen flex items-center justify-center">
           <CallUI/>
         </div>
       </>

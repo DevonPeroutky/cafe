@@ -1,14 +1,15 @@
 import Webcam from "react-webcam";
-import React, {useContext} from "react";
+import React, {CSSProperties, useContext} from "react";
 import AppContext from "@/context.ts";
 
 const videoConstraints = {
   width: 1280, height: 720, facingMode: "user"
 };
 
-export const WebcamCapture: React.FC<{ className?: string | undefined }>  = ({ className }) => {
+export const WebcamCapture: React.FC<{ className?: string | undefined, style?: CSSProperties | undefined }>  = ({ className, style }) => {
   const {webcamRef} = useContext(AppContext);
 
+  const selected_style = style || {maxWidth: "none"}
   return (
       <Webcam
           audio={false}
@@ -16,9 +17,7 @@ export const WebcamCapture: React.FC<{ className?: string | undefined }>  = ({ c
           screenshotFormat="image/jpeg"
           videoConstraints={videoConstraints}
           forceScreenshotSourceSize
-          style={{
-            maxWidth: "none",
-          }}
+          style={selected_style}
           className={className}
       />
   )
