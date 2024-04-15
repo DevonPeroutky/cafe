@@ -1,7 +1,8 @@
 import {useSetRecoilState} from "recoil";
 import {imageState} from "@/data/local-state/images.tsx";
-import {InferenceProps, Status} from "@/data/types.ts";
+import {InferenceProps, Roast, Status} from "@/data/types.ts";
 import {API_ENDPOINT} from "@/data/client/constants.ts";
+import {ChatMessage, ChatMessageT} from "@/app_components/chat/types.ts";
 
 export const useStreamingPostMessage = () => {
   const setRoasts = useSetRecoilState(imageState);
@@ -118,21 +119,21 @@ export const usePostMessage = () => {
 
 
 export const useLoadConversation = () => {
-    const setRoasts = useSetRecoilState(imageState);
-
-    return async (user_id: string) => {
+    return async (user_id: string): Promise<ChatMessageT[]> => {
       try {
         const response = await fetch(`${API_ENDPOINT}/conversation-history?user_id=${user_id}`);
 
         if (response.ok) {
             const data = await response.json();
-
-            setRoasts(data);
+            console.log("CONVERSATION DATA: ", data)
+            return data as ChatMessageT[];
         } else {
             console.error('Server error:', response.status, response.statusText);
+            return []
         }
       } catch (e) {
         console.error('Server error:', e);
+        return []
         }
     }
 }

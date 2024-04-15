@@ -2,7 +2,6 @@
 import React from 'react';
 import {Roast, Status} from "@/data/types.ts";
 import {Loader2} from "lucide-react";
-import {TypewriterText} from "@/app_components/chat/components/TypewriterText.tsx";
 
 interface ChatMessageProps {
   message: string | undefined | null;
@@ -11,7 +10,7 @@ interface ChatMessageProps {
   isLoading: boolean;
 }
 
-const ChatMessage: React.FC<ChatMessageProps> = ({ message, imageSrc, isUser , isLoading }) => {
+export const ChatMessage: React.FC<ChatMessageProps> = ({ message, imageSrc, isUser , isLoading }) => {
   // get the current time
   const time = new Date().toLocaleTimeString('en-US', {
       hour: 'numeric',
@@ -19,11 +18,11 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, imageSrc, isUser , i
       hour12: true,
   });
 
-  const userIcon = isUser ? "/user-icon.svg" : "/ai-icon.svg";
+  const userIcon = isUser ? "/user-icon.svg" : "/dr-phil.jpeg";
 
   return (
       <div className="flex items-start gap-2.5 w-full">
-        <img className="w-6 h-6 rounded-full" src={userIcon} alt="Jese image"/>
+        <img className="w-6 h-6 rounded-full object-cover" src={userIcon} alt="Jese image"/>
         <div className="flex flex-col w-full leading-1.5">
           <div className="flex items-center space-x-2 rtl:space-x-reverse">
             <span className="pb-1 text-md font-semibold text-gray-900 dark:text-white">{isUser ? "You" : `Dr. Beau Nerr`}</span>
@@ -38,7 +37,8 @@ const ChatMessage: React.FC<ChatMessageProps> = ({ message, imageSrc, isUser , i
               <p className="flex italic items-center font-normal text-gray-400 dark:text-white ">
                 <Loader2 className="h-4 w-4 mr-2 animate-spin"/> Hold on asshole...
               </p> :
-              (isUser) ? <p className="max-w-full font-normal text-gray-900 dark:text-white">{message}</p> : <TypewriterText text={message || ""} />
+              // (isUser) ? <p className="max-w-full font-normal text-gray-900 dark:text-white">{message}</p> : <TypewriterText text={message || ""} />
+              <p className="max-w-full font-normal text-gray-900 dark:text-white">{message}</p>
           }
         </div>
       </div>

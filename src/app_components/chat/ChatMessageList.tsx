@@ -2,7 +2,7 @@ import React, {useEffect, useRef} from 'react';
 import {useRecoilState} from "recoil";
 import {imageState} from "@/data/local-state/images.tsx";
 import RoastDisplay from "@/app_components/chat/ChatMessage.tsx";
-import {Placeholder} from "@/app_components/chat/Placeholder.tsx";
+import {EmptyPlaceholder, Placeholder} from "@/app_components/chat/Placeholder.tsx";
 
 const ChatMessageList: React.FC = () => {
   const divRef = useRef(null);
@@ -25,8 +25,10 @@ const ChatMessageList: React.FC = () => {
     }
   };
 
+  console.log("ROASTS: ", roasts)
+
   if (roasts.length === 0) {
-    return <Placeholder />
+    return <EmptyPlaceholder />
   }
 
   return (

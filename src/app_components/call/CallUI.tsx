@@ -4,7 +4,7 @@ import {audioInputStreamAudioResponse} from "@/data/client/audio.ts";
 import {useMicVAD, utils} from "@ricky0123/vad-react";
 import {useRecoilValue} from "recoil";
 import {userState} from "@/data/local-state/user.tsx";
-import {ChatBubbleBottomCenterIcon, MicrophoneIcon} from "@heroicons/react/24/outline";
+import {MicrophoneIcon} from "@heroicons/react/24/outline";
 import {MicrophoneIcon as MicroPhoneIconSolid} from "@heroicons/react/24/solid";
 import {Button} from "@/components/ui/button"
 import {ConversationSheet} from "@/app_components/call/components/ConversationSheet.tsx";
@@ -91,7 +91,7 @@ export const CallUI = () => {
           <div className={`rounded-full ${aiOutline}`}>
             <img src={"/dr-phil.jpeg"} alt="Participant" style={{
               objectFit: `cover`, borderRadius: `50%`, width: `calc(100% - 1px)`, height: `calc(100% - 1px)`,
-            }}/>;
+            }}/>
           </div>
           <div
               className={`flex items-center justify-center aspect-square rounded-full ${userSpeaking ? "talking" : ""}`}>
