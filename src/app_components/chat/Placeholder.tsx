@@ -1,4 +1,4 @@
-import { SettingsIcon} from "lucide-react";
+import {MessagesSquare, SettingsIcon} from "lucide-react";
 import React from "react";
 import {PhotoIcon} from "@heroicons/react/24/outline";
 
@@ -22,6 +22,18 @@ export const Placeholder = () => {
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+  )
+}
+
+export const EmptyPlaceholder = () => {
+  return (
+      <section className="flex flex-col flex-grow py-8">
+        <div className="flex gap-x-2">
+          <MessagesSquare />
+          <span>Your conversation transcript will appear here</span>
         </div>
       </section>
 

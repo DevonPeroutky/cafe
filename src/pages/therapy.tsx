@@ -9,5 +9,5 @@ export const Therapy = () => {
           <CallUI/>
         </div>
       </>
-  );
+  )
 }

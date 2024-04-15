@@ -1,15 +1,10 @@
 import {Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger} from "@/components/ui/sheet.tsx";
-import React, {useEffect} from "react";
+import React from "react";
 import {Button} from "@/components/ui/button.tsx";
 import {ChatBubbleBottomCenterIcon} from "@heroicons/react/24/outline";
-import ChatMessageList from "@/app_components/chat/ChatMessageList.tsx";
+import {ConversationTranscription} from "@/app_components/call/components/ConversationTranscription.tsx";
 
 export const ConversationSheet = () => {
-
-  useEffect(() => {
-    // Load conversation transcript
-
-  }, []);
 
   return (
       <Sheet>
@@ -22,7 +17,7 @@ export const ConversationSheet = () => {
           <SheetHeader>
             <SheetTitle>Conversation Transcript</SheetTitle>
             <SheetDescription>
-              <ChatMessageList/>
+              <ConversationTranscription />
             </SheetDescription>
           </SheetHeader>
         </SheetContent>
